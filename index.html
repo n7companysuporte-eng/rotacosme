@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>N7 Control PRO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#f2f5f3;
+padding-bottom:100px;
+color:#111;
+}
+
+.header{
+background:linear-gradient(135deg,#00c853,#00e676);
+padding:25px 20px 35px;
+border-radius:0 0 30px 30px;
+color:white;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo-icon{
+width:58px;
+height:58px;
+border-radius:18px;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#00c853;
+font-weight:800;
+font-size:22px;
+}
+
+.dashboard{
+background:white;
+margin-top:25px;
+border-radius:25px;
+padding:20px;
+color:#111;
+}
+
+.dashboard h1{
+font-size:34px;
+color:#00c853;
+margin-top:10px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.stat{
+background:#f4f7f5;
+padding:16px;
+border-radius:18px;
+}
+
+.stat span{
+font-size:12px;
+color:#666;
+}
+
+.stat strong{
+display:block;
+margin-top:6px;
+font-size:22px;
+color:#00c853;
+}
+
+.container{
+padding:20px;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:25px;
+margin-bottom:20px;
+}
+
+.card-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.input{
+width:100%;
+padding:16px;
+border:none;
+background:#f1f5f3;
+border-radius:18px;
+margin-bottom:12px;
+outline:none;
+}
+
+.btn{
+width:100%;
+border:none;
+padding:15px;
+border-radius:18px;
+background:linear-gradient(135deg,#00c853,#00e676);
+color:white;
+font-weight:700;
+cursor:pointer;
+margin-top:5px;
+}
+
+.btn-small{
+border:none;
+padding:10px 14px;
+border-radius:14px;
+font-size:12px;
+font-weight:700;
+cursor:pointer;
+}
+
+.red{
+background:#ff5252;
+color:white;
+}
+
+.whats{
+background:#25d366;
+color:white;
+}
+
+.item{
+background:#f4f7f5;
+padding:16px;
+border-radius:18px;
+margin-top:12px;
+}
+
+.item strong{
+display:block;
+margin-bottom:5px;
+color:#00c853;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:12px;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:15px;
+box-shadow:0 -5px 20px rgba(0,0,0,.08);
+z-index:999;
+}
+
+.bottom button{
+border:none;
+background:none;
+font-weight:700;
+font-size:12px;
+color:#00c853;
+}
+
+.ai{
+background:#ecfff1;
+border:2px solid #c8ffd8;
+padding:18px;
+border-radius:20px;
+margin-top:15px;
+}
+
+.ai h3{
+color:#00c853;
+margin-bottom:8px;
+}
+
+.map{
+background:#f4f7f5;
+padding:20px;
+border-radius:20px;
+margin-top:15px;
+}
+
+.map h3{
+margin-bottom:10px;
+color:#00c853;
+}
+
+.city-rank{
+padding:12px;
+background:white;
+border-radius:14px;
+margin-top:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.tag{
+background:#00c85320;
+color:#00c853;
+padding:6px 10px;
+border-radius:999px;
+font-size:12px;
+font-weight:700;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+
+<div class="logo">
+
+<div class="logo-icon">
+N7
+</div>
+
+<div>
+<h2>N7 Control PRO</h2>
+<p>"O Senhor é o meu pastor e nada me faltará."</p>
+</div>
+
+</div>
+
+<div class="dashboard">
+
+<small>Total vendido</small>
+
+<h1 id="totalVendas">
+R$ 0,00
+</h1>
+
+<div class="stats">
+
+<div class="stat">
+<span>Clientes</span>
+<strong id="clientesTotal">0</strong>
+</div>
+
+<div class="stat">
+<span>Vendas</span>
+<strong id="vendasTotal">0</strong>
+</div>
+
+<div class="stat">
+<span>Rotas</span>
+<strong id="rotasTotal">0</strong>
+</div>
+
+<div class="stat">
+<span>Promissórias</span>
+<strong id="promissoriasTotal">0</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<!-- CLIENTES -->
+
+<div class="page active" id="clientesPage">
+
+<div class="card">
+
+<div class="card-title">
+
+<h3>Clientes</h3>
+
+<button class="btn-small whats"
+onclick="exportarClientes()">
+
+WhatsApp
+
+</button>
+
+</div>
+
+<input class="input"
+id="clienteNome"
+placeholder="Nome">
+
+<input class="input"
+id="clienteTelefone"
+placeholder="Telefone">
+
+<select class="input"
+id="clienteCidade"></select>
+
+<button class="btn"
+onclick="addCliente()">
+
+Salvar Cliente
+
+</button>
+
+<div id="clientesList"></div>
+
+</div>
+
+</div>
+
+<!-- VENDAS -->
+
+<div class="page" id="vendasPage">
+
+<div class="card">
+
+<div class="card-title">
+
+<h3>Vendas</h3>
+
+<button class="btn-small whats"
+onclick="exportarVendas()">
+
+WhatsApp
+
+</button>
+
+</div>
+
+<select class="input"
+id="vendaCliente"></select>
+
+<input class="input"
+id="vendaProduto"
+placeholder="Produto">
+
+<input class="input"
+id="vendaValor"
+type="number"
+placeholder="Valor">
+
+<select class="input"
+id="vendaForma">
+
+<option>Pix</option>
+<option>Dinheiro</option>
+<option>Cartão</option>
+<option>Promissória</option>
+
+</select>
+
+<button class="btn"
+onclick="addVenda()">
+
+Registrar Venda
+
+</button>
+
+<div id="vendasList"></div>
+
+</div>
+
+</div>
+
+<!-- ROTAS -->
+
+<div class="page"
+id="rotasPage">
+
+<div class="card">
+
+<h3 style="margin-bottom:20px;">
+Rotas
+</h3>
+
+<select class="input"
+id="rotaCliente"></select>
+
+<select class="input"
+id="rotaCidade"></select>
+
+<input class="input"
+id="rotaData"
+type="date">
+
+<button class="btn"
+onclick="addRota()">
+
+Criar Rota
+
+</button>
+
+<div id="rotasList"></div>
+
+<div class="map">
+
+<h3>
+Mapa Comercial Goiás
+</h3>
+
+<div id="rankingCidades"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- IA -->
+
+<div class="page"
+id="iaPage">
+
+<div class="card">
+
+<h3>
+Inteligência Estratégica
+</h3>
+
+<div class="ai">
+
+<h3>
+Sugestão IA
+</h3>
+
+<p id="mensagemIA">
+Cidade com maior venda aparecerá automaticamente aqui.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom">
+
+<button onclick="openPage('clientesPage')">
+Clientes
+</button>
+
+<button onclick="openPage('vendasPage')">
+Vendas
+</button>
+
+<button onclick="openPage('rotasPage')">
+Rotas
+</button>
+
+<button onclick="openPage('iaPage')">
+IA
+</button>
+
+</div>
+
+<script>
+
+const cidades = [
+
+"Inhumas",
+"Goiânia",
+"Anápolis",
+"Trindade",
+"Goianira",
+"Senador Canedo",
+"Rio Verde",
+"Itumbiara",
+"Jataí",
+"Caldas Novas"
+
+];
+
+let clientes =
+JSON.parse(localStorage.getItem('clientes')) || [];
+
+let vendas =
+JSON.parse(localStorage.getItem('vendas')) || [];
+
+let rotas =
+JSON.parse(localStorage.getItem('rotas')) || [];
+
+function salvar(){
+
+localStorage.setItem(
+'clientes',
+JSON.stringify(clientes)
+);
+
+localStorage.setItem(
+'vendas',
+JSON.stringify(vendas)
+);
+
+localStorage.setItem(
+'rotas',
+JSON.stringify(rotas)
+);
+
+}
+
+function carregarCidades(){
+
+const selects = [
+
+document.getElementById('clienteCidade'),
+document.getElementById('rotaCidade')
+
+];
+
+selects.forEach(select=>{
+
+select.innerHTML='';
+
+cidades.forEach(cidade=>{
+
+select.innerHTML +=
+`<option>${cidade}</option>`;
+
+});
+
+});
+
+}
+
+function carregarClientesSelect(){
+
+let vendaCliente =
+document.getElementById('vendaCliente');
+
+let rotaCliente =
+document.getElementById('rotaCliente');
+
+vendaCliente.innerHTML='';
+rotaCliente.innerHTML='';
+
+clientes.forEach(cliente=>{
+
+vendaCliente.innerHTML +=
+`<option>${cliente.nome}</option>`;
+
+rotaCliente.innerHTML +=
+`<option>${cliente.nome}</option>`;
+
+});
+
+}
+
+function atualizarDashboard(){
+
+let total = 0;
+
+vendas.forEach(v=>{
+
+total += Number(v.valor);
+
+});
+
+document.getElementById(
+'totalVendas'
+).innerText =
+'R$ ' + total.toFixed(2);
+
+document.getElementById(
+'clientesTotal'
+).innerText =
+clientes.length;
+
+document.getElementById(
+'vendasTotal'
+).innerText =
+vendas.length;
+
+document.getElementById(
+'rotasTotal'
+).innerText =
+rotas.length;
+
+document.getElementById(
+'promissoriasTotal'
+).innerText =
+vendas.filter(v=>
+v.forma === 'Promissória'
+).length;
+
+}
+
+function renderClientes(){
+
+let html='';
+
+clientes.forEach((cliente,index)=>{
+
+html += `
+
+<div class="item">
+
+<strong>
+${cliente.nome}
+</strong>
+
+${cliente.telefone}<br>
+${cliente.cidade}
+
+<div class="actions">
+
+<button class="btn-small red"
+onclick="removerCliente(${index})">
+
+Remover
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+'clientesList'
+).innerHTML = html;
+
+}
+
+function renderVendas(){
+
+let html='';
+
+vendas.forEach((venda,index)=>{
+
+html += `
+
+<div class="item">
+
+<strong>
+${venda.cliente}
+</strong>
+
+${venda.produto}<br>
+
+R$ ${venda.valor}<br>
+
+${venda.forma}
+
+<div class="actions">
+
+<button class="btn-small red"
+onclick="removerVenda(${index})">
+
+Remover
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+'vendasList'
+).innerHTML = html;
+
+}
+
+function renderRotas(){
+
+let html='';
+
+rotas.forEach((rota,index)=>{
+
+html += `
+
+<div class="item">
+
+<strong>
+${rota.cliente}
+</strong>
+
+${rota.cidade}<br>
+
+${rota.data}
+
+<div class="actions">
+
+<button class="btn-small red"
+onclick="removerRota(${index})">
+
+Remover
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+'rotasList'
+).innerHTML = html;
+
+}
+
+function gerarRanking(){
+
+let ranking = {};
+
+vendas.forEach(venda=>{
+
+let cliente =
+clientes.find(c=>
+c.nome === venda.cliente
+);
+
+if(cliente){
+
+if(!ranking[cliente.cidade]){
+
+ranking[cliente.cidade]=0;
+
+}
+
+ranking[cliente.cidade] +=
+Number(venda.valor);
+
+}
+
+});
+
+let rankingHTML='';
+
+let cidadesOrdenadas =
+Object.entries(ranking)
+.sort((a,b)=> b[1]-a[1]);
+
+cidadesOrdenadas.forEach(cidade=>{
+
+rankingHTML += `
+
+<div class="city-rank">
+
+<strong>
+${cidade[0]}
+</strong>
+
+<div class="tag">
+
+R$ ${cidade[1].toFixed(2)}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+'rankingCidades'
+).innerHTML = rankingHTML;
+
+if(cidadesOrdenadas.length > 0){
+
+document.getElementById(
+'mensagemIA'
+).innerText =
+
+'A cidade que mais vende atualmente é ' +
+cidadesOrdenadas[0][0] +
+' com total de R$ ' +
+cidadesOrdenadas[0][1].toFixed(2);
+
+}
+
+}
+
+function addCliente(){
+
+let nome =
+document.getElementById(
+'clienteNome'
+).value;
+
+let telefone =
+document.getElementById(
+'clienteTelefone'
+).value;
+
+let cidade =
+document.getElementById(
+'clienteCidade'
+).value;
+
+if(nome===''){
+
+alert('Digite o nome');
+return;
+
+}
+
+clientes.push({
+nome,
+telefone,
+cidade
+});
+
+salvar();
+
+renderClientes();
+
+carregarClientesSelect();
+
+atualizarDashboard();
+
+document.getElementById(
+'clienteNome'
+).value='';
+
+document.getElementById(
+'clienteTelefone'
+).value='';
+
+}
+
+function addVenda(){
+
+let cliente =
+document.getElementById(
+'vendaCliente'
+).value;
+
+let produto =
+document.getElementById(
+'vendaProduto'
+).value;
+
+let valor =
+document.getElementById(
+'vendaValor'
+).value;
+
+let forma =
+document.getElementById(
+'vendaForma'
+).value;
+
+vendas.push({
+cliente,
+produto,
+valor,
+forma
+});
+
+salvar();
+
+renderVendas();
+
+gerarRanking();
+
+atualizarDashboard();
+
+document.getElementById(
+'vendaProduto'
+).value='';
+
+document.getElementById(
+'vendaValor'
+).value='';
+
+}
+
+function addRota(){
+
+let cliente =
+document.getElementById(
+'rotaCliente'
+).value;
+
+let cidade =
+document.getElementById(
+'rotaCidade'
+).value;
+
+let data =
+document.getElementById(
+'rotaData'
+).value;
+
+rotas.push({
+cliente,
+cidade,
+data
+});
+
+salvar();
+
+renderRotas();
+
+atualizarDashboard();
+
+}
+
+function removerCliente(index){
+
+clientes.splice(index,1);
+
+salvar();
+
+renderClientes();
+
+carregarClientesSelect();
+
+atualizarDashboard();
+
+}
+
+function removerVenda(index){
+
+vendas.splice(index,1);
+
+salvar();
+
+renderVendas();
+
+gerarRanking();
+
+atualizarDashboard();
+
+}
+
+function removerRota(index){
+
+rotas.splice(index,1);
+
+salvar();
+
+renderRotas();
+
+atualizarDashboard();
+
+}
+
+function exportarClientes(){
+
+let texto='CLIENTES%0A%0A';
+
+clientes.forEach(c=>{
+
+texto +=
+c.nome + ' - ' +
+c.telefone + ' - ' +
+c.cidade + '%0A';
+
+});
+
+window.open(
+'https://wa.me/?text=' + texto,
+'_blank'
+);
+
+}
+
+function exportarVendas(){
+
+let texto='VENDAS%0A%0A';
+
+vendas.forEach(v=>{
+
+texto +=
+v.cliente + ' - ' +
+v.produto + ' - R$ ' +
+v.valor + '%0A';
+
+});
+
+window.open(
+'https://wa.me/?text=' + texto,
+'_blank'
+);
+
+}
+
+function openPage(page){
+
+document.querySelectorAll('.page')
+.forEach(p=>{
+
+p.classList.remove('active');
+
+});
+
+document.getElementById(page)
+.classList.add('active');
+
+}
+
+carregarCidades();
+
+carregarClientesSelect();
+
+renderClientes();
+
+renderVendas();
+
+renderRotas();
+
+gerarRanking();
+
+atualizarDashboard();
+
+</script>
+
+</body>
+</html>
